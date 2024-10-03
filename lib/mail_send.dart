@@ -19,11 +19,6 @@ class _MailSendPageState extends State<MailSendPage> {
   String? email;
   String? msg;
 
-  // var result = "";
-  // final TextEditingController _nameController = TextEditingController();
-  // final TextEditingController _emailController = TextEditingController();
-  // final TextEditingController _msgController = TextEditingController();
-
   final gmailSMTP = gmail(dotenv.env["MAIL"]!, dotenv.env["PASSWORD"]!);
 
   sendMail() async {
@@ -224,100 +219,6 @@ class _MailSendPageState extends State<MailSendPage> {
                   },
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //       left: 20.0, top: 10.0, right: 20.0, bottom: 10.0),
-              //   child: TextField(
-              //     controller: _nameController,
-              //     decoration: InputDecoration(
-              //       label: const Text("Enter Your Name"),
-              //       labelStyle: const TextStyle(
-              //         color: Colors.black,
-              //         fontSize: 15.0,
-              //         fontWeight: FontWeight.w400,
-              //       ),
-              //       prefixIcon: const Icon(Icons.person),
-              //       border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //       ),
-              //       focusedBorder: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //         borderSide: const BorderSide(
-              //           color: Colors.blueGrey,
-              //           width: 2,
-              //         ),
-              //       ),
-              //       enabledBorder: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //         borderSide:
-              //             const BorderSide(color: Colors.black, width: 2),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //       left: 20.0, top: 10.0, right: 20.0, bottom: 10.0),
-              //   child: TextField(
-              //     controller: _emailController,
-              //     keyboardType: TextInputType.emailAddress,
-              //     decoration: InputDecoration(
-              //       label: const Text("Enter Your Email Address"),
-              //       labelStyle: const TextStyle(
-              //         color: Colors.black,
-              //         fontSize: 15.0,
-              //         fontWeight: FontWeight.w400,
-              //       ),
-              //       prefixIcon: const Icon(Icons.email),
-              //       border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //       ),
-              //       focusedBorder: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //         borderSide: const BorderSide(
-              //           color: Colors.blueGrey,
-              //           width: 2,
-              //         ),
-              //       ),
-              //       enabledBorder: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //         borderSide:
-              //             const BorderSide(color: Colors.black, width: 2),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //       left: 20.0, top: 10.0, right: 20.0, bottom: 20.0),
-              //   child: TextField(
-              //     controller: _msgController,
-              //     decoration: InputDecoration(
-              //       label: const Text("Type Anything Regarding Services"),
-              //       labelStyle: const TextStyle(
-              //         color: Colors.black,
-              //         fontSize: 15.0,
-              //         fontWeight: FontWeight.w400,
-              //       ),
-              //       prefixIcon: const Icon(Icons.message_outlined),
-              //       border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //       ),
-              //       focusedBorder: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //         borderSide: const BorderSide(
-              //           color: Colors.blueGrey,
-              //           width: 2,
-              //         ),
-              //       ),
-              //       enabledBorder: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //         borderSide:
-              //             const BorderSide(color: Colors.black, width: 2),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueGrey.withOpacity(0.3),
