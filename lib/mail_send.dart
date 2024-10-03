@@ -19,28 +19,33 @@ class _MailSendPageState extends State<MailSendPage> {
   String? email;
   String? msg;
 
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController msgController = TextEditingController();
+
   final gmailSMTP = gmail(dotenv.env["MAIL"]!, dotenv.env["PASSWORD"]!);
 
   sendMail() async {
-    final message = Message()
-      ..from = Address(dotenv.env["MAIL"]!, 'Testing Mail')
-      ..recipients.add(email)
-      ..subject = 'Thank You for Your Submission!'
-      ..text = ''
-      ..html =
-          "<h5>Dear $name,</h5><p>Thank you for taking the time to fill out our form! We appreciate your effort and are thrilled to have you on board.</p><p>Your submission has been successfully received. Our team is currently reviewing your information, and we will get back to you shortly with the next steps.</p><p>Thank you once again!</p>";
+    final message = Message();
+    message.from = Address(dotenv.env["MAIL"]!, 'Testing Mail');
+    message.recipients.add(emailController.text);
+    message.subject = 'Thank You for Your Submission!';
+    message.text = '';
+    message.html =
+        "<h5>Dear ${nameController.text},</h5><p>Thank you for taking the time to fill out our form! We appreciate your effort and are thrilled to have you on board.</p><p>Your submission has been successfully received. Our team is currently reviewing your information, and we will get back to you shortly with the next steps.</p><p>Thank you once again!</p>";
 
     try {
       final sendReport = await send(message, gmailSMTP);
       print('Message sent: $sendReport');
+      nameController.clear();
+      emailController.clear();
+      msgController.clear();
     } on MailerException catch (e) {
       print('Message not sent.');
       for (var p in e.problems) {
         print('Problem: ${p.code}: ${p.msg}');
       }
     }
-
-    _formkey.currentState!.reset();
 
     setState(() {
       _isLoading = false; // Stop loading when the task is complete
@@ -89,6 +94,7 @@ class _MailSendPageState extends State<MailSendPage> {
                   bottom: 10.0,
                 ),
                 child: TextFormField(
+                  controller: nameController,
                   decoration: InputDecoration(
                     hintText: "Enter Your Name",
                     label: const Text(
@@ -134,6 +140,7 @@ class _MailSendPageState extends State<MailSendPage> {
                   bottom: 10.0,
                 ),
                 child: TextFormField(
+                  controller: emailController,
                   decoration: InputDecoration(
                     label: const Text(
                       "Email",
@@ -182,6 +189,7 @@ class _MailSendPageState extends State<MailSendPage> {
                   top: 10.0,
                 ),
                 child: TextFormField(
+                  controller: msgController,
                   decoration: InputDecoration(
                     label: const Text(
                       "Message",
@@ -226,11 +234,11 @@ class _MailSendPageState extends State<MailSendPage> {
                 onPressed: () {
                   if (_formkey.currentState!.validate()) {
                     _formkey.currentState!.save();
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    sendMail();
                   }
-                  setState(() {
-                    _isLoading = true;
-                  });
-                  sendMail();
                 },
                 label: _isLoading
                     ? const Padding(
