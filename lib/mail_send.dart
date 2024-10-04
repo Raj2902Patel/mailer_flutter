@@ -13,6 +13,7 @@ class MailSendPage extends StatefulWidget {
 
 class _MailSendPageState extends State<MailSendPage> {
   bool _isLoading = false;
+  bool _isSubmited = false;
   final _formkey = GlobalKey<FormState>();
 
   String? name;
@@ -37,9 +38,17 @@ class _MailSendPageState extends State<MailSendPage> {
     try {
       final sendReport = await send(message, gmailSMTP);
       print('Message sent: $sendReport');
-      nameController.clear();
-      emailController.clear();
-      msgController.clear();
+
+      setState(() {
+        _formkey.currentState?.reset();
+        nameController.clear();
+        emailController.clear();
+        msgController.clear();
+        _isSubmited = false;
+        // Reset the form state
+      });
+      print("Controller Cleared");
+      setState(() {});
     } on MailerException catch (e) {
       print('Message not sent.');
       for (var p in e.problems) {
@@ -94,6 +103,9 @@ class _MailSendPageState extends State<MailSendPage> {
                   bottom: 10.0,
                 ),
                 child: TextFormField(
+                  autovalidateMode: _isSubmited
+                      ? AutovalidateMode.onUserInteraction
+                      : AutovalidateMode.disabled,
                   controller: nameController,
                   decoration: InputDecoration(
                     hintText: "Enter Your Name",
@@ -140,6 +152,9 @@ class _MailSendPageState extends State<MailSendPage> {
                   bottom: 10.0,
                 ),
                 child: TextFormField(
+                  autovalidateMode: _isSubmited
+                      ? AutovalidateMode.onUserInteraction
+                      : AutovalidateMode.disabled,
                   controller: emailController,
                   decoration: InputDecoration(
                     label: const Text(
@@ -189,6 +204,9 @@ class _MailSendPageState extends State<MailSendPage> {
                   top: 10.0,
                 ),
                 child: TextFormField(
+                  autovalidateMode: _isSubmited
+                      ? AutovalidateMode.onUserInteraction
+                      : AutovalidateMode.disabled,
                   controller: msgController,
                   decoration: InputDecoration(
                     label: const Text(
@@ -232,6 +250,9 @@ class _MailSendPageState extends State<MailSendPage> {
                   backgroundColor: Colors.blueGrey.withOpacity(0.3),
                 ),
                 onPressed: () {
+                  setState(() {
+                    _isSubmited = true;
+                  });
                   if (_formkey.currentState!.validate()) {
                     _formkey.currentState!.save();
                     setState(() {
@@ -248,7 +269,7 @@ class _MailSendPageState extends State<MailSendPage> {
                         ),
                       )
                     : const Text(
-                        "Save Form!",
+                        "Save",
                         style: TextStyle(
                           color: Colors.black87,
                           fontSize: 22.0,
